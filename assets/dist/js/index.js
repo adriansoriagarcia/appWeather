@@ -25,6 +25,7 @@ function consulatrAPI(position){
 
     let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${appId}`;
     let url5Dias = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+    let url16Dias = `https://api.openweathermap.org/data/2.5/forecast/daily?lat={lat}&lon={lon}&cnt={cnt}&appid={API key}`;
 
 
     // fetch api 1 día
@@ -51,7 +52,7 @@ function consulatrAPI(position){
       return respuesta.json();
     })
     .then(informacion => {
-      console.log(informacion);
+      //console.log(informacion);
       //limpiarHTML();
       if(informacion.cod === "404") {
         //mostrarError('Ciudad No Encontrada')
@@ -84,14 +85,14 @@ function mostrarClima(datos){
 
     //console.log(datos.main.pressure);
 
-    //document.getElementById("viento").innerHTML=datos.wind.speed + " km/h";
-    //document.getElementById("humedad").innerHTML=datos.main.humidity + " %";
+    document.getElementById("viento").innerHTML= "Viento: " + datos.wind.speed + " km/h";
+    document.getElementById("humedad").innerHTML= "Humedad: " + datos.main.humidity + " %";
 
     let visibilidad = datos.visibility / 1000;
 
-    //document.getElementById("visibilidad").innerHTML= visibilidad + " km";
+    document.getElementById("visibilidad").innerHTML= "Visibilidad: " +  visibilidad + " km";
 
-    //document.getElementById("presion").innerHTML=datos.main.pressure + " mb";
+    document.getElementById("presion").innerHTML="Presion: " + datos.main.pressure + " mb";
 
     if(tiempo== "Clear") {
         document.getElementById("tiempo").src="../assets/img/Clear.png";
@@ -112,6 +113,7 @@ function climaSemana(informacion){
   maniana = hoy.setTime(hoy.getTime() + (1*24*60*60*1000))
   maniana = new Date(maniana)
   let manana = String(maniana.getFullYear() +'-' + String(maniana.getMonth() + 1).padStart(2, '0') + '-' + maniana.getDate());
+  let pasado = String(maniana.getFullYear() +'-' + String(maniana.getMonth() + 1).padStart(2, '0') + '-' + maniana.getDate());
   //console.log(manana);
 
   let valoresManana = [];
@@ -121,17 +123,20 @@ function climaSemana(informacion){
     //console.log(valores[i]);
     //includes comprueba si existe un texto en una frase.
     if(valores[i].dt_txt.includes(`${manana}`)){
-      //console.log(valores[i])
+      console.log(valores[i])
       valoresManana.push(valores[i]);
     }
   }
 
   let ultimoValorDiario = valoresManana.length;
 
-  console.log();
-  //document.getElementById("maxHoy").innerHTML = (valoresManana[0].main.temp_max - 273.15).toFixed(0) + "°C";
-  //document.getElementById("minHoy").innerHTML = (valoresManana[ultimoValorDiario - 1].main.temp_min- 273.15).toFixed(0) + "°C";
+  //console.log();
+  document.getElementById("maxManana").innerHTML = (valoresManana[0].main.temp_max - 273.15).toFixed(0) + "°C";
+  document.getElementById("minManana").innerHTML = (valoresManana[ultimoValorDiario - 1].main.temp_min- 273.15).toFixed(0) + "°C";
 
+  //let estadoMañana = valoresManana[0].weather[0].main;
+  //console.log(estadoMañana)
+  //console.log(valoresManana[ultimoValorDiario - 1].main.temp_min);
 
   //DATOS DE MAÑANA
 
